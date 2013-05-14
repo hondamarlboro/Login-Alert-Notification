@@ -3,7 +3,7 @@
 Plugin Name: Login Alert Notification
 Plugin URI: http://daisukeblog.com/
 Description: Notify alerts with Email and Push Notifiaction Services if someone has tried to login to your WordPress dashboard.
-Version: 0.35
+Version: 0.36
 Author: hondamarlboro
 Author URI: http://daisukeblog.com/
 License: GPLv2 or later http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,14 +62,8 @@ function login_alerts_imkayac() {
 	$browser = htmlspecialchars($_SERVER['HTTP_USER_AGENT'],ENT_QUOTES | ENT_HTML401,"UTF-8");
 	$referred =  htmlspecialchars($_SERVER['HTTP_REFERER'],ENT_QUOTES | ENT_HTML401,"UTF-8"); // a quirky spelling mistake that stuck in php
 
-	/* Set timezone if needed */
-	date_default_timezone_set('Asia/Tokyo');
-
-	$d1=date("Y/m/d");
-	$d2=date("H");
-	$d3=date("i:s");
-	$d4=$d2;
-	$date =("$d1 $d4:$d3 ");
+	/* Set current time */
+	$blogtime = date('Y-m-d H:i:s',current_time('timestamp',0)); 
 
 	/* User attempting to login */
 	if(isset($_POST['log'])) {
@@ -84,7 +78,7 @@ function login_alerts_imkayac() {
 		$subject = "Login page opened";
 	}
 
-	$message = "WP Login Attempt".htmlentities($who)."\nDate: ".$date." \nIP: ".$ip." \nHostname: ".$hostaddress." \nBrowser: ".htmlentities($browser)." \nReferral: ".htmlentities($referred)." \n";
+	$message = "WP Login Attempt".htmlentities($who)."\nDate: ".$blogtime." \nIP: ".$ip." \nHostname: ".$hostaddress." \nBrowser: ".htmlentities($browser)." \nReferral: ".htmlentities($referred)." \n";
 
 	//Email
 	if ( $login_alerts_options['email_enable'] ){
