@@ -86,7 +86,11 @@ function login_alerts_imkayac() {
 		sleep(5);
 
 		$to = $admin_email; //E-Mails the site owner, set in the dashboard Settings panel.
-		$from = "no-reply@daisukeblog.com"; //$admin_email;
+		if(isset($login_alerts_options['emailfrom'])){
+			$from = $login_alerts_options['emailfrom'];
+		} else{
+			$from = $admin_email;
+		}
 		$headers = "From: $from";
 		mail($to,$subject,$message,$headers);
 	}
